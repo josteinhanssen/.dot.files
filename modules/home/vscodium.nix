@@ -85,6 +85,9 @@ in
 
         "editor.mouseWheelZoom" = true;
 
+        # Git
+        "git.enableSmartCommit" = true;
+
         # C/C++
         "clangd.arguments" = [
           "--clang-tidy"

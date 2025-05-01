@@ -75,7 +75,7 @@ in
         "explorer.openEditors.visible" = 10; # Show open editors section
         "breadcrumbs.enabled" = true; # Enable breadcrumbs for navigation
         "editor.renderControlCharacters" = false;
-        "workbench.activityBar.location" = "side";
+        "workbench.activityBar.location" = "default";
         "workbench.statusBar.visible" = true;
         "editor.scrollbar.verticalScrollbarSize" = 10;
         "editor.scrollbar.horizontalScrollbarSize" = 10;

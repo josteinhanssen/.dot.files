@@ -88,6 +88,7 @@ in
     winetricks
     wineWowPackages.wayland
     zenity
+    _1password-gui
 
     # C / C++
     gcc

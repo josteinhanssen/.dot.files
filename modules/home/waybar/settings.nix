@@ -21,7 +21,7 @@ let
 in
 {
   programs.waybar.settings.mainBar = with custom; {
-    position = "bottom";
+    position = "top";
     layer = "top";
     height = 28;
     margin-top = 0;
@@ -117,8 +117,8 @@ in
         default = [ "<span foreground='${blue}'> </span>" ];
       };
       scroll-step = 2;
-      on-click = "pamixer -t";
-      on-click-right = "pavucontrol";
+      on-click = "pavucontrol";
+      on-click-right = "pamixer -t";
     };
     battery = {
       format = "<span foreground='${yellow}'>{icon}</span> {capacity}%";
@@ -142,7 +142,7 @@ in
     };
     "hyprland/language" = {
       format = "<span foreground='#FABD2F'> </span> {}";
-      format-fr = "FR";
+      format-no = "NO";
       format-en = "US";
     };
     "custom/launcher" = {

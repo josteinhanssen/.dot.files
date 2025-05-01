@@ -1,15 +1,13 @@
 { pkgs, ... }:
 let
-  jonathanharty.gruvbox-material-icon-theme =
-    pkgs.vscode-utils.buildVscodeMarketplaceExtension
-      {
-        mktplcRef = {
-          name = "gruvbox-material-icon-theme";
-          publisher = "JonathanHarty";
-          version = "1.1.5";
-          hash = "sha256-86UWUuWKT6adx4hw4OJw3cSZxWZKLH4uLTO+Ssg75gY=";
-        };
-      };
+  jonathanharty.gruvbox-material-icon-theme = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+    mktplcRef = {
+      name = "gruvbox-material-icon-theme";
+      publisher = "JonathanHarty";
+      version = "1.1.5";
+      hash = "sha256-86UWUuWKT6adx4hw4OJw3cSZxWZKLH4uLTO+Ssg75gY=";
+    };
+  };
   ziglang_vscode-zig = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
     mktplcRef = {
       name = "vscode-zig";
@@ -50,7 +48,7 @@ in
         "extensions.autoUpdate" = false; # This stuff fixes vscode freaking out when theres an update
         "window.titleBarStyle" = "custom"; # needed otherwise vscode crashes, see https://github.com/NixOS/nixpkgs/issues/246509
 
-        "window.menuBarVisibility" = "toggle";
+        "window.menuBarVisibility" = "visible";
         "editor.fontFamily" = "'Maple Mono', 'SymbolsNerdFont', 'monospace', monospace";
         "terminal.integrated.fontFamily" = "'Maple Mono', 'SymbolsNerdFont'";
         "editor.fontSize" = 18;
@@ -72,18 +70,18 @@ in
         "workbench.editor.limit.enabled" = true;
         "workbench.editor.limit.value" = 10;
         "workbench.editor.limit.perEditorGroup" = true;
-        "workbench.editor.showTabs" = "none";
+        "workbench.editor.showTabs" = "multiple"; # Show tabs when multiple files are open
         "files.autoSave" = "onWindowChange";
-        "explorer.openEditors.visible" = 0;
-        "breadcrumbs.enabled" = false;
+        "explorer.openEditors.visible" = 10; # Show open editors section
+        "breadcrumbs.enabled" = true; # Enable breadcrumbs for navigation
         "editor.renderControlCharacters" = false;
-        "workbench.activityBar.location" = "hidden";
-        "workbench.statusBar.visible" = false;
-        "editor.scrollbar.verticalScrollbarSize" = 2;
-        "editor.scrollbar.horizontalScrollbarSize" = 2;
-        "editor.scrollbar.vertical" = "hidden";
-        "editor.scrollbar.horizontal" = "hidden";
-        "workbench.layoutControl.enabled" = false;
+        "workbench.activityBar.location" = "side";
+        "workbench.statusBar.visible" = true;
+        "editor.scrollbar.verticalScrollbarSize" = 10;
+        "editor.scrollbar.horizontalScrollbarSize" = 10;
+        "editor.scrollbar.vertical" = "auto";
+        "editor.scrollbar.horizontal" = "auto";
+        "workbench.layoutControl.enabled" = true;
 
         "editor.mouseWheelZoom" = true;
 

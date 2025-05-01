@@ -27,5 +27,9 @@
     CLUTTER_BACKEND = "wayland";
     GTK_THEME = "Colloid-Green-Dark-Gruvbox";
     GRIMBLAST_HIDE_CURSOR = 0;
+    # For NVIDIA
+    LIBVA_DRIVER_NAME = "nvidia";
+    GBM_BACKEND = "nvidia-drm";
+    _GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 }

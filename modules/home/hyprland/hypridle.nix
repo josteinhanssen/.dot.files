@@ -15,38 +15,40 @@ in
   home.packages = [ pkgs.hypridle ];
   services.hypridle = {
     enable = true;
+    settings = {
+      # Basic configuration
+      general = {
+        lock_cmd = "hyprlock";
+      };
 
-    # Basic configuration
-    lockCmd = "hyprlock"; # Command to run when locking
-    beforeSleepCmd = "loginctl lock-session"; # Command to run before system sleeps
-    afterSleepCmd = ""; # Command to run after system wakes up from sleep
+      # Timeout configuration (in seconds)
+      timeouts = [
+        {
+          timeout = 300; # 5 minutes
+          command = "hyprlock"; # Lock the screen
+        }
+        {
+          timeout = 600; # 10 minutes
+          command = "${pkgs.systemd}/bin/systemctl suspend"; # Suspend the system
+        }
+      ];
 
-    # Timeout configuration (in seconds)
-    timeouts = [
-      {
-        timeout = 300; # 5 minutes
-        command = "hyprlock"; # Lock the screen
-      }
-      {
-        timeout = 600; # 10 minutes
-        command = "${pkgs.systemd}/bin/systemctl suspend"; # Suspend the system
-      }
-    ];
+      # Inhibit idle when these conditions are met
+      listeners = [
+        {
+          name = "fullscreen";
+          timeout = 30; # Check every 30 seconds
+          on-check = "hyprctl activewindow -j | jq -e '.fullscreen' | grep -q 'true'";
+          on-timeout = ""; # Do nothing, effectively inhibiting idle
+        }
+        {
+          name = "audio";
+          timeout = 30;
+          on-check = "${audioCheckScript}";
+          on-timeout = ""; # Do nothing, effectively inhibiting idle
+        }
+      ];
+    };
 
-    # Inhibit idle when these conditions are met
-    listeners = [
-      {
-        name = "fullscreen";
-        timeout = 30; # Check every 30 seconds
-        onCheck = "hyprctl activewindow -j | jq -e '.fullscreen' | grep -q 'true'";
-        onTimeout = ""; # Do nothing, effectively inhibiting idle
-      }
-      {
-        name = "audio";
-        timeout = 30;
-        onCheck = "${audioCheckScript}";
-        onTimeout = ""; # Do nothing, effectively inhibiting idle
-      }
-    ];
   };
 }

@@ -15,7 +15,9 @@
         "waybar &"
         "swaync &"
         "hyprctl setcursor Bibata-Modern-Ice 24 &"
-        "swww-daemon"
+        "swww-daemon &"
+
+        "hyprlock"
       ];
 
       input = {

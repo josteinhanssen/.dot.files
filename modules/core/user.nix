@@ -11,6 +11,7 @@
     useUserPackages = true;
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs username host; };
+    backupFileExtension = "backup";
     users.${username} = {
       imports =
         if (host == "desktop") then

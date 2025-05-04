@@ -1,7 +1,11 @@
-{ config, inputs, pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 let
-  hyprland-pkgs =
-    inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
+  hyprland-pkgs = inputs.hyprland.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   hardware = {
@@ -16,11 +20,12 @@ in
       ];
     };
     nvidia.modesetting.enable = true;
-    nvidia.powerManagement.enable = false; 
+    nvidia.powerManagement.enable = true;
     nvidia.open = false;
     nvidia.nvidiaSettings = true;
     nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
     nvidia.forceFullCompositionPipeline = true;
   };
   hardware.enableRedistributableFirmware = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
 }

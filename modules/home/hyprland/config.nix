@@ -44,8 +44,6 @@
         "col.inactive_border" = "0x00000000";
         # border_part_of_window = false;
         no_border_on_floating = false;
-        cursor_inactive_timeout = 0; # Prevent cursor from hiding when inactive
-        no_cursor_warps = false; # Allow cursor warping (helps with cursor visibility)
       };
 
       cursor = {
@@ -87,8 +85,6 @@
         # active_opacity = 0.90;
         # inactive_opacity = 0.90;
         # fullscreen_opacity = 1.0;
-        cursor_zoom_factor = 1.0; # Normal cursor size (no zoom)
-        cursor_zoom_rigid = false; # Don't use rigid cursor zoom
 
         blur = {
           enabled = true;

@@ -48,6 +48,10 @@
         no_cursor_warps = false; # Allow cursor warping (helps with cursor visibility)
       };
 
+      cursor = {
+        use_cpu_buffer = 0;
+      };
+
       misc = {
         disable_autoreload = true;
         disable_hyprland_logo = true;
@@ -393,6 +397,10 @@
       # Force cursor to be always visible
       env = XCURSOR_SIZE,24
       env = XCURSOR_THEME,Bibata-Modern-Ice
+      env = WLR_NO_HARDWARE_CURSORS,1
+      env = LIBVA_DRIVER_NAME,nvidia
+      env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+      env = ELECTRON_OZONE_PLATFORM_HINT,auto
 
       # Ensure xwayland uses the same cursor
       xwayland {

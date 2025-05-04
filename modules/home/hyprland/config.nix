@@ -44,6 +44,8 @@
         "col.inactive_border" = "0x00000000";
         # border_part_of_window = false;
         no_border_on_floating = false;
+        cursor_inactive_timeout = 0; # Prevent cursor from hiding when inactive
+        no_cursor_warps = false; # Allow cursor warping (helps with cursor visibility)
       };
 
       misc = {
@@ -56,6 +58,10 @@
         focus_on_activate = true;
         new_window_takes_over_fullscreen = 2;
         middle_click_paste = false;
+        mouse_move_enables_dpms = true; # Wake up displays by moving mouse
+        key_press_enables_dpms = true; # Wake up displays by pressing keys
+        animate_mouse_windowdragging = false; # Disable animations when dragging windows with mouse
+        mouse_move_focuses_monitor = true; # Focus monitor when moving mouse to it
       };
 
       dwindle = {
@@ -77,6 +83,8 @@
         # active_opacity = 0.90;
         # inactive_opacity = 0.90;
         # fullscreen_opacity = 1.0;
+        cursor_zoom_factor = 1.0; # Normal cursor size (no zoom)
+        cursor_zoom_rigid = false; # Don't use rigid cursor zoom
 
         blur = {
           enabled = true;
@@ -380,6 +388,16 @@
 
       xwayland {
         force_zero_scaling = true
+      }
+
+      # Force cursor to be always visible
+      env = XCURSOR_SIZE,24
+      env = XCURSOR_THEME,Bibata-Modern-Ice
+
+      # Ensure xwayland uses the same cursor
+      xwayland {
+        force_zero_scaling = true
+        use_nearest_neighbor = true
       }
     ";
   };

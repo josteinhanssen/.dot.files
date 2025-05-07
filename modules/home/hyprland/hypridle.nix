@@ -27,7 +27,7 @@ let
         exit 1
     fi
   '';
-  lockIfNoAudioScript = pkgs.writeShellScript "check-audio-playing" ''
+  lockIfNoAudioScript = pkgs.writeShellScript "lock-if-no-audio" ''
     #!/bin/bash
 
     # Path to the check-audio script
@@ -39,7 +39,12 @@ let
         exit 0
     else
         echo "No audio, proceeding to lock."
-        hyprlock
+        # Check if hyprlock is already running to avoid multiple instances
+        if pidof hyprlock > /dev/null; then
+            echo "Hyprlock is already running, skipping."
+        else
+            hyprlock
+        fi
         exit 0
     fi
   '';
@@ -51,18 +56,23 @@ in
     settings = {
       # Basic configuration
       general = {
-        lock_cmd = "pidof hyprlock || ${lockIfNoAudioScript}";
-        after_sleep_cmd = "hyprctl dispatch dpms on";
+        lock_cmd = "${lockIfNoAudioScript}";
+        after_sleep_cmd = "hyprctl dispatch dpms on && ${lockIfNoAudioScript}";
+        ignore_dbus_inhibit = false;
       };
 
       # Inhibit idle when these conditions are met
       listener = [
         {
-          timeout = 60; # 5 minutes
-          on-timeout = "pidof hyprlock || ${lockIfNoAudioScript}";
+          timeout = 300; # 5 minutes - lock screen if no audio
+          on-timeout = "${lockIfNoAudioScript}";
+        }
+        {
+          timeout = 600; # 10 minutes - turn off monitors
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on && ${lockIfNoAudioScript}";
         }
       ];
     };
-
   };
 }

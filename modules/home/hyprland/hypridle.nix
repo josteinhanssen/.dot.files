@@ -51,7 +51,7 @@ in
     settings = {
       # Basic configuration
       general = {
-        lock_cmd = "pidof hyprlock || ${audioCheckScript}";
+        lock_cmd = "pidof hyprlock || ${lockIfNoAudioScript}";
         after_sleep_cmd = "hyprctl dispatch dpms on";
       };
 
@@ -59,7 +59,7 @@ in
       listener = [
         {
           timeout = 60; # 5 minutes
-          on-timeout = "pidof hyprlock || ${audioCheckScript}";
+          on-timeout = "pidof hyprlock || ${lockIfNoAudioScript}";
         }
       ];
     };

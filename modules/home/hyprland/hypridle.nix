@@ -7,8 +7,41 @@
 
 let
   audioCheckScript = pkgs.writeShellScript "check-audio-playing" ''
-    # Use pw-dump to check for active audio streams by looking at audio levels
-    ${pkgs.pipewire}/bin/pw-dump | ${pkgs.jq}/bin/jq '.[] | select(.type == "PipeWire:Interface:Node" and .info.state == "running" and .info.params.Props != null and .info.params.Props.channelVolumes != null) | .info.params.Props.channelVolumes[] | select(. > 0.01)' | ${pkgs.gnugrep}/bin/grep -q .
+    #!/bin/bash
+
+    # Check if pw-dump and jq are installed
+    if ! command -v pw-dump &> /dev/null || ! command -v jq &> /dev/null; then
+        echo "Error: pw-dump or jq is not installed."
+        exit 1
+    fi
+
+    # Get the output of pw-dump and check for nodes with state "running"
+    audio_playing=$(pw-dump | jq -r '.[] | select(.type == "PipeWire:Interface:Node" and .info.state == "running" and .info.props."media.class" == "Stream/Output/Audio") | .info.state')
+
+    # If any node is "running", audio is playing
+    if [[ -n "$audio_playing" ]]; then
+        echo "Audio is playing."
+        exit 0
+    else
+        echo "No audio is playing."
+        exit 1
+    fi
+  '';
+  lockIfNoAudioScript = pkgs.writeShellScript "check-audio-playing" ''
+    #!/bin/bash
+
+    # Path to the check-audio script
+    CHECK_AUDIO_SCRIPT="${audioCheckScript}"
+
+    # Run the check-audio script
+    if "$CHECK_AUDIO_SCRIPT"; then
+        echo "Audio is playing, skipping lock."
+        exit 0
+    else
+        echo "No audio, proceeding to lock."
+        hyprlock
+        exit 0
+    fi
   '';
 in
 {
@@ -18,34 +51,16 @@ in
     settings = {
       # Basic configuration
       general = {
-        lock_cmd = "hyprlock";
+        lock_cmd = "pidof hyprlock || ${audioCheckScript}";
+        after_sleep_cmd = "hyprctl dispatch dpms on";
       };
 
-      # Timeout configuration (in seconds)
-      timeouts = [
+      # Inhibit idle when these conditions are met
+      listener = [
         {
           timeout = 300; # 5 minutes
-          command = "hyprlock"; # Lock the screen
-        }
-        {
-          timeout = 600; # 10 minutes
-          command = "${pkgs.systemd}/bin/systemctl suspend"; # Suspend the system
-        }
-      ];
-
-      # Inhibit idle when these conditions are met
-      listeners = [
-        {
-          name = "fullscreen";
-          timeout = 30; # Check every 30 seconds
-          on-check = "hyprctl activewindow -j | jq -e '.fullscreen' | grep -q 'true'";
-          on-timeout = ""; # Do nothing, effectively inhibiting idle
-        }
-        {
-          name = "audio";
-          timeout = 30;
-          on-check = "${audioCheckScript}";
-          on-timeout = ""; # Do nothing, effectively inhibiting idle
+          on-check = "hyprctl activewindow -j | jq -e '.fullscreen' | grep -q '2'";
+          on-timeout = "pidof hyprlock || ${audioCheckScript}";
         }
       ];
     };

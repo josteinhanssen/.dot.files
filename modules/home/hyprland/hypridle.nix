@@ -58,8 +58,7 @@ in
       # Inhibit idle when these conditions are met
       listener = [
         {
-          timeout = 300; # 5 minutes
-          on-check = "hyprctl activewindow -j | jq -e '.fullscreen' | grep -q '2'";
+          timeout = 60; # 5 minutes
           on-timeout = "pidof hyprlock || ${audioCheckScript}";
         }
       ];

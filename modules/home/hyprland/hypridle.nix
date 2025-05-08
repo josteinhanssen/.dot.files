@@ -48,6 +48,22 @@ let
         exit 0
     fi
   '';
+  sleepIfNoAudioScript = pkgs.writeShellScript "sleep-if-no-audio" ''
+    #!/bin/bash
+
+    # Path to the check-audio script
+    CHECK_AUDIO_SCRIPT="${audioCheckScript}"
+
+    # Run the check-audio script
+    if "$CHECK_AUDIO_SCRIPT"; then
+        echo "Audio is playing, skipping monitor sleep."
+        exit 0
+    else
+        echo "No audio, proceeding to turn off monitors."
+        hyprctl dispatch dpms off
+        exit 0
+    fi
+  '';
 in
 {
   home.packages = [ pkgs.hypridle ];
@@ -68,8 +84,8 @@ in
           on-timeout = "${lockIfNoAudioScript}";
         }
         {
-          timeout = 600; # 10 minutes - turn off monitors
-          on-timeout = "hyprctl dispatch dpms off";
+          timeout = 600; # 10 minutes - turn off monitors if no audio
+          on-timeout = "${sleepIfNoAudioScript}";
           on-resume = "hyprctl dispatch dpms on && ${lockIfNoAudioScript}";
         }
       ];

@@ -373,6 +373,9 @@
         "opaque,class:^()$,title:^()$"
         "noshadow,class:^()$,title:^()$"
         "noblur,class:^()$,title:^()$"
+
+        # Games fullscreen
+        "fullscreen, class:^steam_app\d+$"
       ];
 
       # No gaps when only
@@ -380,6 +383,9 @@
         "w[t1], gapsout:0, gapsin:0"
         "w[tg1], gapsout:0, gapsin:0"
         "f[1], gapsout:0, gapsin:0"
+        # Games in workspace 10, no borders
+        "10 ,class:^steam_app_\d+$"
+        "10, border:false, rounding:false"
       ];
     };
 

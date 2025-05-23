@@ -26,7 +26,6 @@ in
       extensions = with pkgs.vscode-extensions; [
         # Web Development Essentials
         vue.volar
-        vue.vscode-typescript-vue-plugin
         bradlc.vscode-tailwindcss
         dbaeumer.vscode-eslint
         esbenp.prettier-vscode

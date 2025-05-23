@@ -32,9 +32,6 @@ in
         esbenp.prettier-vscode
         stylelint.vscode-stylelint
 
-        # TypeScript/JavaScript
-        ms-vscode.vscode-typescript-next
-
         # Misc extensions
         jnoortheen.nix-ide
         arrterian.nix-env-selector

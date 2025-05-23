@@ -8,6 +8,7 @@ let
       hash = "sha256-86UWUuWKT6adx4hw4OJw3cSZxWZKLH4uLTO+Ssg75gY=";
     };
   };
+
   ziglang_vscode-zig = pkgs.vscode-utils.buildVscodeMarketplaceExtension {
     mktplcRef = {
       name = "vscode-zig";
@@ -16,7 +17,6 @@ let
       hash = "sha256-eFfucWSioF1w4veoO8VAFNi5q2g9JZbZu+NEOuuyHtM=";
     };
   };
-
 in
 {
   programs.vscode = {
@@ -24,25 +24,27 @@ in
     package = pkgs.vscodium;
     profiles.default = {
       extensions = with pkgs.vscode-extensions; [
-        # nix language
-        jnoortheen.nix-ide
-        # nix-shell suport
-        arrterian.nix-env-selector
-        # python
-        # ms-python.python
-        # C/C++
-        llvm-vs-code-extensions.vscode-clangd
-        # OCaml
-        # ocamllabs.ocaml-platform
-        # Zig
-        # ziglang.vscode-zig
-        ziglang_vscode-zig
+        # Web Development Essentials
+        vue.volar
+        vue.vscode-typescript-vue-plugin
+        bradlc.vscode-tailwindcss
+        dbaeumer.vscode-eslint
+        esbenp.prettier-vscode
+        stylelint.vscode-stylelint
 
-        # Color theme
+        # TypeScript/JavaScript
+        ms-vscode.vscode-typescript-next
+
+        # Misc extensions
+        jnoortheen.nix-ide
+        arrterian.nix-env-selector
+        llvm-vs-code-extensions.vscode-clangd
+        ziglang_vscode-zig
         jdinhlife.gruvbox
-        # sainnhe.gruvbox-material
         jonathanharty.gruvbox-material-icon-theme
+        rooveterinaryinc.roo-cline
       ];
+
       userSettings = {
         "update.mode" = "none";
         "extensions.autoUpdate" = false; # This stuff fixes vscode freaking out when theres an update
@@ -111,7 +113,63 @@ in
         #     };
         #   };
         # };
+
+        # Vue-specific configuration
+        "vue.server.hybridMode" = true;
+        "volar.autoCompleteRefs" = true;
+        "volar.codeLens.references" = true;
+        "volar.codeLens.pugTools" = true;
+        "volar.tsPlugin" = true;
+        "files.associations" = {
+          "*.vue" = "vue";
+        };
+
+        # TypeScript/JavaScript
+        "typescript.tsdk" = "node_modules/typescript/lib";
+        "typescript.preferences.importModuleSpecifier" = "relative";
+        "javascript.updateImportsOnFileMove.enabled" = "always";
+
+        # Tailwind CSS
+        "tailwindCSS.includeLanguages" = {
+          "vue" = "html";
+          "typescript" = "html";
+          "javascript" = "html";
+        };
+        "tailwindCSS.emmetCompletions" = true;
+        "editor.quickSuggestions" = {
+          "strings" = true; # Enable autocomplete in CSS strings
+        };
+
+        # ESLint
+        "eslint.format.enable" = true;
+        "eslint.lintTask.enable" = true;
+        "eslint.probe" = [
+          "typescript"
+          "typescriptreact"
+          "javascript"
+          "javascriptreact"
+          "vue"
+        ];
+
+        # Formatting Configuration
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+        "[vue]" = {
+          "editor.defaultFormatter" = "vue.volar";
+        };
+        "[typescript]" = {
+          "editor.defaultFormatter" = "esbenp.prettier-vscode";
+        };
+        "[javascript]" = {
+          "editor.defaultFormatter" = "esbenp.prettier-vscode";
+        };
+
+        # Emmet for Vue files
+        "emmet.includeLanguages" = {
+          "vue-html" = "html";
+          "vue" = "html";
+        };
       };
+
       # Keybindings
       keybindings = [
         {
@@ -124,6 +182,23 @@ in
           command = "workbench.action.files.saveFiles";
         }
       ];
+
+      # Optional: Add npm/node to your environment
+      # (Consider adding these to systemPackages if not already present)
+      # systemPackages = with pkgs; [ nodejs npm ];
     };
   };
+
+  # Install fnm
+  programs.fnm = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  # Add basic Node.js tools
+  home.packages = with pkgs; [
+    nodejs
+    nodePackages.npm
+    nodePackages.pnpm
+  ];
 }

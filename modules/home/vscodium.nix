@@ -189,14 +189,9 @@ in
     };
   };
 
-  # Install fnm
-  programs.fnm = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
   # Add basic Node.js tools
   home.packages = with pkgs; [
+    fnm
     nodejs
     nodePackages.npm
     nodePackages.pnpm

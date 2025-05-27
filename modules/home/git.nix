@@ -11,6 +11,11 @@
       credential.helper = "store";
       merge.conflictstyle = "diff3";
       diff.colorMoved = "default";
+      url = {
+        "git@github.com:" = {
+          insteadOf = "https://github.com/";
+        };
+      };
     };
 
     delta = {
@@ -20,6 +25,19 @@
         side-by-side = true;
         diff-so-fancy = true;
         navigate = true;
+      };
+    };
+  };
+
+  # SSH configuration for GitHub
+  programs.ssh = {
+    enable = true;
+    
+    matchBlocks = {
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/github";
       };
     };
   };

@@ -213,6 +213,10 @@ in
     };
   };
 
+  programs.go = {
+    enable = true;
+  };
+
   home.activation = {
     mergeVSCodiumSettings = "bash ${mergeVSCodiumSettingsScript}";
   };

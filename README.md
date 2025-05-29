@@ -70,3 +70,50 @@ For existing repositories that you've cloned using HTTPS, you can update them to
 ```bash
 git remote set-url origin git@github.com:username/repo.git
 ```
+
+## Updating VSCodium Extensions
+
+VSCodium extensions managed by this Nix configuration are handled in two ways:
+
+### 1. Extensions from `pkgs.vscode-extensions`
+
+Most extensions are sourced directly from the `nixpkgs` set. To update these:
+
+1.  Update your flake inputs:
+    ```bash
+    nix flake update
+    ```
+2.  Rebuild your NixOS configuration using your alias:
+    ```bash
+    nrs
+    ```
+
+This will pull the latest versions of these extensions as packaged in `nixpkgs`.
+
+### 2. Custom-built Extensions (e.g., `ziglang_vscode-zig`)
+
+Extensions defined using `pkgs.vscode-utils.buildVscodeMarketplaceExtension` (like `ziglang_vscode-zig` in `modules/home/vscodium.nix`) require manual updates:
+
+1.  **Find the New Version**: Check the VSCode Marketplace or the extension's repository for the latest version number.
+2.  **Update Version in Nix File**:
+    - Open `modules/home/vscodium.nix`.
+    - Locate the extension's definition.
+    - Update the `version` attribute to the new version number.
+    - Change the `hash` attribute to a placeholder, for example: `sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=`.
+3.  **Attempt Rebuild to Get Hash**:
+    - Run your NixOS rebuild command:
+      ```bash
+      nrs
+      ```
+    - The build will likely fail with a hash mismatch error. Look for the line that says `got: sha256-CORRECT_HASH_HERE`.
+4.  **Update Hash in Nix File**:
+    - Copy the correct hash (the `got:` value) from the error message.
+    - Paste this correct hash into the `hash` attribute for the extension in `modules/home/vscodium.nix`.
+5.  **Final Rebuild**:
+    - Run your NixOS rebuild command again:
+      ```bash
+      nrs
+      ```
+    - The build should now succeed, and the extension will be updated.
+
+After rebuilding, restart VSCodium to see the changes.

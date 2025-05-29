@@ -14,8 +14,8 @@ let
     mktplcRef = {
       name = "vscode-zig";
       publisher = "ziglang";
-      version = "0.6.5";
-      hash = "sha256-eFfucWSioF1w4veoO8VAFNi5q2g9JZbZu+NEOuuyHtM=";
+      version = "0.6.10";
+      hash = "sha256-Tptl+tJ2ZlnKyswdTjnPJakhiiJn+1XmB82rbk8aO1w=";
     };
   };
 

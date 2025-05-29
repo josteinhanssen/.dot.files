@@ -182,6 +182,24 @@ in
         esbenp.prettier-vscode
         stylelint.vscode-stylelint
 
+        # Python
+        ms-python.python
+        ms-python.black-formatter
+        ms-python.isort
+
+        # Go
+        golang.go
+
+        # Documentation
+        yzhang.markdown-all-in-one
+        bierner.markdown-mermaid
+
+        # DevOps
+        ms-azuretools.vscode-docker
+        eamodio.gitlens
+        github.vscode-pull-request-github
+        hashicorp.terraform
+
         # Misc extensions
         jnoortheen.nix-ide
         arrterian.nix-env-selector
@@ -190,6 +208,7 @@ in
         jdinhlife.gruvbox
         jonathanharty.gruvbox-material-icon-theme
         rooveterinaryinc.roo-cline
+        jgclark.vscode-todo-highlight
       ];
     };
   };

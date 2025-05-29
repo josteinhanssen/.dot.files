@@ -32,7 +32,6 @@
   # SSH configuration for GitHub
   programs.ssh = {
     enable = true;
-    startAgent = true;
     
     matchBlocks = {
       "github.com" = {

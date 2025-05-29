@@ -80,6 +80,14 @@ let
     "zig.revealOutputChannelOnFormattingError" = false;
     "zig.zls.enableInlayHints" = false;
 
+    # Rust
+    "rust-analyzer.checkOnSave.command" = "clippy"; # Use clippy for checks on save
+    # To enable inlay hints specifically for Rust if the global "editor.inlayHints.enabled" (line 45) is "off",
+    # you might need to set individual rust-analyzer inlay hint categories to true, e.g.:
+    # "rust-analyzer.inlayHints.parameterHints.enable" = true;
+    # "rust-analyzer.inlayHints.typeHints.enable" = true;
+    # (and others as desired)
+
     "nix.serverPath" = "nixd";
     "nix.enableLanguageServer" = true;
     # "nix.serverSettings" = {
@@ -200,6 +208,11 @@ in
         github.vscode-pull-request-github
         hashicorp.terraform
 
+        # Rust
+        rust-lang.rust-analyzer
+        serayuzgur.crates # For crates.io dependency management in Cargo.toml
+        tamasfe.even-better-toml # For enhanced TOML file support
+
         # Misc extensions
         jnoortheen.nix-ide
         arrterian.nix-env-selector
@@ -222,12 +235,13 @@ in
   };
 
   # Ensure jq is available for the merge script
-  home.packages = with pkgs; [ 
+  home.packages = with pkgs; [
     jq
     fnm
     nodejs
     nodePackages.npm
     nodePackages.pnpm
+    rustup # For Rust toolchain management (rustc, cargo, etc.)
   ];
 }
 

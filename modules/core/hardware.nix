@@ -9,6 +9,7 @@ let
 in
 {
   hardware = {
+    bluetooth.enable = true;
     graphics = {
       enable = true;
       package = hyprland-pkgs.mesa;
@@ -28,4 +29,8 @@ in
   };
   hardware.enableRedistributableFirmware = true;
   services.xserver.videoDrivers = [ "nvidia" ];
+  services.blueman.enable = true;
+  environment.systemPackages = with pkgs; [
+    blueman
+  ];
 }

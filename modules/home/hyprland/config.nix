@@ -322,13 +322,15 @@
         "opacity 1.0 override 1.0 override, class:(Unity)"
         "opacity 1.0 override 1.0 override, class:(zen)"
         "opacity 1.0 override 1.0 override, class:(evince)"
-        "workspace 1, class:^(zen)$"
+        "workspace 1, class:^(.*zen.*)$"
+        "workspace 2, class:^(.*codium.*)$"
         "workspace 3, class:^(evince)$"
         "workspace 4, class:^(Gimp-2.10)$"
         "workspace 4, class:^(Aseprite)$"
         "workspace 5, class:^(Audacious)$"
         "workspace 5, class:^(Spotify)$"
         "workspace 8, class:^(com.obsproject.Studio)$"
+        "workspace 9,class:^(.*steam_app.*)$"
         "workspace 10, class:^(discord)$"
         "workspace 10, class:^(WebCord)$"
         "idleinhibit focus, class:^(mpv)$"
@@ -377,9 +379,8 @@
         "noshadow,class:^()$,title:^()$"
         "noblur,class:^()$,title:^()$"
 
-        # Games fullscreen on workspace 10
-        "fullscreen, class:^steam_app\d+$"
-        "workspace 10,class:^steam_app_\d+$"
+        # Games fullscreen        
+        "fullscreen, class:^steam_app_\d+$"
       ];
 
       # No gaps when only
